@@ -48,7 +48,9 @@ src/cad_server/
   jobs.py                # the agent operations' and the viewer exports' admission, progress,
                          #   waiting and cancellation
   analytics.py           # telemetry: usage counts and crash reports, on by default once
-                         #   a command has said so, never after a no
+                         #   a command has said so, never after a no; and whose an error is
+                         #   (the library's cad.engine.errors first, its frame rule the fallback),
+                         #   which also decides a failed build's Report Issue
   settings.py            # the person's settings: settings.json in the state directory
   language.py            # the language the person chose for the CAD views
   updates.py             # the hourly version check, for a copy nothing else keeps current,

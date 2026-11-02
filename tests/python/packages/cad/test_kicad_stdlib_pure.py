@@ -17,6 +17,9 @@ from tests.python.support.paths import LIBRARY
 SOURCE = LIBRARY / "src" / "cad"
 FAMILY = sorted((SOURCE / "engine" / "formats" / "kicad").glob("*.py")) + [SOURCE / "kicad_pcb" / "__init__.py"]
 OWN = "cad.engine.formats.kicad"
+# Beside the family, two of the library's modules that are the standard library alone: cad.kicad_pcb is
+# a DocumentType, and a board that does not read is the person's to fix (a UserError, law 29).
+ALSO = frozenset({"cad._internal.document_type", "cad.engine.errors"})
 
 
 def imported(path) -> set[str]:
@@ -35,7 +38,7 @@ class KicadReaderIsStdlibPure(unittest.TestCase):
         offenders = sorted(f"{path.relative_to(SOURCE)}: {name}" for path in FAMILY for name in imported(path)
                            if name != "__future__" and name.partition(".")[0] not in sys.stdlib_module_names
                            and name != OWN and not name.startswith(OWN + ".")
-                           and name != "cad._internal.document_type")  # cad.kicad_pcb is a DocumentType
+                           and name not in ALSO)
         self.assertEqual(offenders, [])
 
 

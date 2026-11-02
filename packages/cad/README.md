@@ -112,8 +112,8 @@ the two disagree, the engine's README is right.
 ## The design laws
 
 These are LAWS, not conventions: a change that violates them is wrong even when it works.
-Laws 1 to 13 and 19 to 23 are the engine's; 14 to 18 hold for the whole package; 24 to 28 are the
-document types', the integrations' and the CLI's.
+Laws 1 to 13 and 19 to 23 are the engine's; 14 to 18 and 29 hold for the whole package; 24 to 28 are
+the document types', the integrations' and the CLI's.
 
 1. **An xbf carries its build closure as pointers and digests** -- script and function,
    modules, data inputs, the toolchain (versions, the Python and the machine) and the key; never
@@ -410,7 +410,6 @@ document types', the integrations' and the CLI's.
     as they did before the edit, and no process of the engine has opened a file of the model's code
     since its run.
 
-
 24. **One table names every document type and integration.** The registry (`cad.registry`) is the
     single source of every layer: each type's id, extensions, MIME type, how it is viewed (an engine
     document, a mesh, a drawing, a robot, a plot), the content it carries, its operations and the
@@ -459,6 +458,20 @@ document types', the integrations' and the CLI's.
     uninstall, doctor, plugin, viewer, status, stop, server, telemetry, run, serve and delete -- stay
     top-level.
 
+29. **Every error says whose it is to fix, by its class.** An error is the person's if it is a
+    `UserError` (`cad.engine.errors`); every other error is cadgen's. cadgen code that takes what the
+    person gave it -- a value, a path, a file, a request -- checks it and raises a `UserError`
+    subclass that says what is wrong, before anything is written; it never lets a bad value fail
+    a later line. cadgen code that reaches a state it cannot go on from raises an `InternalError`,
+    not a bare `RuntimeError` or an `assert`. A refusal keeps the built-in class it always had
+    beside `UserError` (`class ExportRefused(UserError, ValueError)`), so an `except ValueError`
+    still catches it. `cad.engine.errors.owner` is the rule; an error that is no `CadError` -- Python's, a
+    library's, the person's own code's -- is decided by the server's fallback, which reads where it
+    was raised, until every raise of cadgen's carries a class. The rule decides two things and
+    nothing else may decide them: whether a page offers Report Issue for a failed build, and
+    whether telemetry counts a crash. The engine's README, **Whose an error is**, has how.
+    *Pressure-test*: a model's own `assert`, an OCCT refusal and an `ExportRefused` offer no
+    Report Issue and send no crash; an `InternalError` anywhere in cadgen's code does both.
 
 ## Agent operations
 
@@ -537,8 +550,9 @@ src/cad/
                          #   and the producers it registers (_producers)
   engine/                # the engine's library half: models and the worker every build runs
                          #   in, documents, exports, the mesh, references, the OCCT stills, the
-                         #   client every command reaches the server by, and where things are
-                         #   on this computer (places)
+                         #   client every command reaches the server by, where things are
+                         #   on this computer (places), and whose an error is to fix (errors:
+                         #   CadError, UserError, InternalError, owner; law 29)
   results.py             # the operations' shared result types: what a `check` returns, typed
   eng_drawing.py         # @eng_drawing: Sheets and Views over a part, one PDF (open: a future
                          #   pdf document type)
