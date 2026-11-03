@@ -114,3 +114,5 @@ sketches/*
 !sketches/README.md
 drawings/*
 !drawings/README.md
+models_export/*
+!models_export/README.md

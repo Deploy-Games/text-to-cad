@@ -36,14 +36,26 @@ The agent must recognize that requests like:
 - **In-Chat Preview:** Always render a high-res PNG preview from the PDF using:
   `pdftoppm -png -r 150 drawings/<part_name>_drawing.pdf drawings/<part_name>_preview`
   and embed the preview directly in the response: `![<part_name> Drawing](file:///home/tom/homeserver/projects/text-to-cad/drawings/<part_name>_preview-1.png)`
-- **Download Link:** Provide the direct link: `[Download Drawing PDF](file:///home/tom/homeserver/projects/text-to-cad/drawings/<part_name>_drawing.pdf)`.
+- **Download Links:** Provide direct clickable links:
+  - `[Download Drawing PDF](file:///home/tom/homeserver/projects/text-to-cad/drawings/<part_name>_drawing.pdf)`
+  - `[Download Editable 3D STEP for Onshape](file:///home/tom/homeserver/projects/text-to-cad/models_export/<part_name>.step)`
 - **3D Viewer Link:** Provide the browser URL (`cad viewer`) so the user can interactively orbit the 3D part.
-- **Phone Sync:** Automatically mirror the PDF to `/home/tom/homeserver/infrastructure/syncthing/download/reports/<part_name>_drawing.pdf` so it syncs immediately to the user's phone.
+- **Exporting 3D Models for Onshape / SolidWorks / Fusion 360:**
+  When asked for a 3D model, editable CAD file, or STEP:
+  Export the B-Rep solid to STEP format:
+  `cad export <model_id_or_script> models_export/<part_name>.step`
+  STEP AP242 preserves true geometric BREP boundaries, planar faces, cylindrical holes, and exact dimensions, allowing direct feature editing in Onshape, SolidWorks, Fusion 360, etc.
+- **Phone Sync:** Automatically mirror the PDF and STEP file to:
+  - `/home/tom/homeserver/infrastructure/syncthing/download/reports/<part_name>_drawing.pdf`
+  - `/home/tom/homeserver/infrastructure/syncthing/download/reports/<part_name>.step`
+  so the user can immediately view/import them from their mobile phone or desktop.
 
-### 5. Emailing Drawings (When Requested)
-If the user asks to email the drawing (e.g., *"Send it via mail to Roland"*, *"Email this to serverOwner"*, or to any address):
-- Run the email helper:
+### 5. Emailing Drawings & 3D Models (When Requested)
+If the user asks to email the drawing or 3D model (e.g., *"Send it via mail to Roland"*, *"Email this to serverOwner"*, or to any address):
+- Run the email helper with the desired attachment (PDF or STEP):
   `python3 scripts/send_drawing_email.py <recipient_alias_or_email> drawings/<part_name>_drawing.pdf "[Subject]" "[Message]"`
+  or
+  `python3 scripts/send_drawing_email.py <recipient_alias_or_email> models_export/<part_name>.step "[Subject]" "[Message]"`
 - Supported aliases from `/home/tom/homeserver/config/email-aliases.json`: `serverOwner` (user's email), `roland`, `sandra`, `lewin`, `kaan`, `mias`, `reel`, or any valid email address.
 - Confirm email dispatch to the user in the response.
 
