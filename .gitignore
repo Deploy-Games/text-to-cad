@@ -108,3 +108,9 @@ design/
 # a build timestamp, so committing them would churn); a fresh checkout
 # restores pose/mates by running the script once.
 *.source.json
+
+# Local sketch inputs and drawing PDF outputs
+sketches/*
+!sketches/README.md
+drawings/*
+!drawings/README.md

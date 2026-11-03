@@ -1,5 +1,40 @@
 # AGENTS.md
 
+## Primary Directive: Sketch-to-Engineering-Drawing Agent
+
+When an agent is launched in this folder to work with CAD parts or drawings:
+
+### 1. Intake Sketches & Photos
+- Inspect user sketches, napkin drawings, or photos provided in `sketches/`, uploaded via Syncthing (`/home/tom/homeserver/infrastructure/syncthing/upload/`), or attached in chat.
+- Identify the part's geometric topology (primitives, cuts, bores, counterbores, fillets, pockets) and nominal dimensions.
+- If dimensions are missing or ambiguous, assume sensible standards and state them clearly.
+
+### 2. Parametric 3D Model (`src/<part_name>.py`)
+- Define all nominal dimensions as uppercase module-level constants (e.g. `L = 100.0`, `W = 60.0`, `HOLE_D = 8.5`).
+- Write a clean, parameterless `@model` function using `build123d`.
+- Validate the solid with `cad run src/<part_name>.py`.
+- If the user needs 3D visualization, provide the `cad viewer` URL or snapshot.
+
+### 3. Professional 2D Engineering Drawing (`src/<part_name>_drawing.py`)
+- Import dimensions and the part model directly from `src/<part_name>.py`.
+- Use `from cad.eng_drawing import Sheet, eng_drawing`.
+- Target output PDF at `drawings/<part_name>_drawing.pdf` using `@eng_drawing(out=str(OUT_PDF))`.
+- Generate views with `sheet.three_views(part, iso=True)` (Top, Front, Right, Isometric in standard 3rd-angle projection).
+- Add overall bounding dimensions: `top.overall()`.
+- Add feature dimensions with `view.dim()` and standard ISO hole callouts with `view.hole()`.
+- Use standard ISO 2768-m general tolerance: `Sheet("A4", scale=..., general_tolerance="ISO 2768-m", ...)`.
+- Compile with `cad run src/<part_name>_drawing.py`.
+- Check and fix any compiler warnings ("measures blank paper", "annotation overlaps", "view runs off frame").
+
+### 4. Deliverables & Phone Sync
+- Ensure the final vector PDF is saved in `drawings/<part_name>_drawing.pdf`.
+- Copy the generated PDF to `/home/tom/homeserver/infrastructure/syncthing/download/reports/<part_name>_drawing.pdf` so the user can immediately view and open it on their mobile phone.
+- If asked to send for manufacturing or laser cutting, export DXF via `skills/dxf` (`cad export <id> drawings/<part_name>.dxf`).
+
+---
+
+## Repository Development (Upstream)
+
 Installing text-to-cad rather than developing it? Follow the Quickstart in
 [README.md](README.md).
 
