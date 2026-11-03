@@ -4,16 +4,22 @@
 
 When an agent is launched in this folder to work with CAD parts or drawings:
 
-### 1. Intake Sketches & Photos
-- Inspect user sketches, napkin drawings, or photos provided in `sketches/`, uploaded via Syncthing (`/home/tom/homeserver/infrastructure/syncthing/upload/`), or attached in chat.
-- Identify the part's geometric topology (primitives, cuts, bores, counterbores, fillets, pockets) and nominal dimensions.
-- If dimensions are missing or ambiguous, assume sensible standards and state them clearly.
+### 1. Intent Recognition & Trigger Prompts
+The agent must recognize that requests like:
+- *"Here is a sketch of a mounting bracket in `sketches/bracket.png`. Model it and generate an ISO engineering drawing with dimensions and hole callouts."*
+- *"Make a professional sketch"* / *"Turn this sketch into a drawing"* / *"Make a technical drawing"*
+- Or simply receiving an image/sketch attached in chat or dropped into `sketches/`
+
+**ALL MEAN:**
+1. Interpret the sketch/photo and identify the part's geometric topology (primitives, cuts, bores, counterbores, fillets, pockets) and nominal dimensions.
+2. Build a solid parametric 3D model in `src/<part_name>.py` using `build123d` and `@model`.
+3. Generate a professional ISO dimensioned engineering drawing in `drawings/<part_name>_drawing.pdf` using `cad.eng_drawing`.
 
 ### 2. Parametric 3D Model (`src/<part_name>.py`)
 - Define all nominal dimensions as uppercase module-level constants (e.g. `L = 100.0`, `W = 60.0`, `HOLE_D = 8.5`).
 - Write a clean, parameterless `@model` function using `build123d`.
 - Validate the solid with `cad run src/<part_name>.py`.
-- If the user needs 3D visualization, provide the `cad viewer` URL or snapshot.
+- Keep the generated 3D viewer URL (`http://127.0.0.1:3245/...`) to share with the user.
 
 ### 3. Professional 2D Engineering Drawing (`src/<part_name>_drawing.py`)
 - Import dimensions and the part model directly from `src/<part_name>.py`.
@@ -24,12 +30,22 @@ When an agent is launched in this folder to work with CAD parts or drawings:
 - Add feature dimensions with `view.dim()` and standard ISO hole callouts with `view.hole()`.
 - Use standard ISO 2768-m general tolerance: `Sheet("A4", scale=..., general_tolerance="ISO 2768-m", ...)`.
 - Compile with `cad run src/<part_name>_drawing.py`.
-- Check and fix any compiler warnings ("measures blank paper", "annotation overlaps", "view runs off frame").
+- Check and fix any compiler warnings (*"measures blank paper"*, *"annotation overlaps"*, *"view runs off frame"*).
 
-### 4. Deliverables & Phone Sync
-- Ensure the final vector PDF is saved in `drawings/<part_name>_drawing.pdf`.
-- Copy the generated PDF to `/home/tom/homeserver/infrastructure/syncthing/download/reports/<part_name>_drawing.pdf` so the user can immediately view and open it on their mobile phone.
-- If asked to send for manufacturing or laser cutting, export DXF via `skills/dxf` (`cad export <id> drawings/<part_name>.dxf`).
+### 4. Direct Delivery in Chat & Phone Sync
+- **In-Chat Preview:** Always render a high-res PNG preview from the PDF using:
+  `pdftoppm -png -r 150 drawings/<part_name>_drawing.pdf drawings/<part_name>_preview`
+  and embed the preview directly in the response: `![<part_name> Drawing](file:///home/tom/homeserver/projects/text-to-cad/drawings/<part_name>_preview-1.png)`
+- **Download Link:** Provide the direct link: `[Download Drawing PDF](file:///home/tom/homeserver/projects/text-to-cad/drawings/<part_name>_drawing.pdf)`.
+- **3D Viewer Link:** Provide the browser URL (`cad viewer`) so the user can interactively orbit the 3D part.
+- **Phone Sync:** Automatically mirror the PDF to `/home/tom/homeserver/infrastructure/syncthing/download/reports/<part_name>_drawing.pdf` so it syncs immediately to the user's phone.
+
+### 5. Emailing Drawings (When Requested)
+If the user asks to email the drawing (e.g., *"Send it via mail to Roland"*, *"Email this to serverOwner"*, or to any address):
+- Run the email helper:
+  `python3 scripts/send_drawing_email.py <recipient_alias_or_email> drawings/<part_name>_drawing.pdf "[Subject]" "[Message]"`
+- Supported aliases from `/home/tom/homeserver/config/email-aliases.json`: `serverOwner` (user's email), `roland`, `sandra`, `lewin`, `kaan`, `mias`, `reel`, or any valid email address.
+- Confirm email dispatch to the user in the response.
 
 ---
 
