@@ -1,14 +1,14 @@
-FeatureScript 2444;
-import(path : "onshape/std/common.fs", version : "2444.0");
+FeatureScript 3112;
+import(path : "onshape/std/geometry.fs", version : "3112.0");
 
 /**
  * Parametric Desk Storage Frame Feature for Onshape Part Studios.
  * Reconstructed from concept sketch: 1600 x 800 x 300 mm with 6 partitioned bays.
  * 
  * Usage in Onshape:
- * 1. In your Onshape document, click '+' at bottom-left and select 'Create Feature Studio'.
+ * 1. Open Feature Studio 1.
  * 2. Paste this entire code and click 'Commit'.
- * 3. Switch back to your Part Studio. A new 'Desk Storage Frame' button will appear in the toolbar.
+ * 3. Switch back to your Part Studio tab. A 'Desk Storage Frame' button will appear in the toolbar.
  * 4. Click it to insert the fully parametric feature into your Feature Tree!
  */
 annotation { "Feature Type Name" : "Desk Storage Frame", "Feature Type Description" : "Parametric partitioned desk frame (1600x800x300mm, 6 bays)" }
