@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """
-CLI helper to email 3D CAD models (STEP/STL/GLB) and engineering drawings to contacts or aliases.
+CLI helper to email 3D CAD models (STEP/STL/GLB/FeatureScript) and engineering drawings to contacts or aliases.
 
 Usage:
     python3 scripts/send_cad_model_email.py <recipient_alias> <attachment_path1> [attachment_path2 ...]
+    python3 scripts/send_cad_model_email.py --to <recipient_alias> --subject <subject> --body <body> <attachments...>
 """
 
+import argparse
 import os
 import smtplib
 import sys
@@ -79,31 +81,40 @@ def send_cad_email(
 
 
 def main():
-    if len(sys.argv) < 3 or sys.argv[1] in ("-h", "--help"):
-        print(__doc__)
-        sys.exit(0)
+    parser = argparse.ArgumentParser(description="Send CAD models and drawings via email.")
+    parser.add_argument("recipient", help="Recipient alias (e.g. roland, serverOwner)")
+    parser.add_argument("attachments", nargs="+", help="Paths to attachments")
+    parser.add_argument("--subject", default=None, help="Optional email subject")
+    parser.add_argument("--body", default=None, help="Optional email body")
 
-    recipient = sys.argv[1]
-    attachments = [Path(p).resolve() for p in sys.argv[2:]]
+    args = parser.parse_args()
 
-    subject = "3D CAD Model: Partitioned Storage Frame (STEP & Drawing)"
-    body = (
-        "Hi Roland,\n\n"
-        "Attached is the 3D CAD model in STEP format (desk_storage_frame.step) for the "
-        "partitioned storage frame (1600 x 800 x 300 mm, 6 bays) reconstructed from "
-        "the concept sketch.\n\n"
-        "You can import the STEP file directly into Onshape (Insert / Import into document).\n\n"
-        "The dimensioned ISO 2D engineering drawing PDF is also attached for reference.\n\n"
+    attachments = [Path(p).resolve() for p in args.attachments]
+
+    subject = args.subject or "3D CAD Model & Onshape Feature Tree: Desk Storage Frame"
+    body = args.body or (
+        "Hi,\n\n"
+        "Here are the CAD model files and Onshape Feature Tree files for the partitioned desk storage frame "
+        "(1600 x 800 x 300 mm, 6 partitioned bays):\n\n"
+        "Attached Files:\n"
+        "1. desk_storage_frame.fs (Onshape FeatureScript - creates a fully parametric feature in Onshape's Feature Tree)\n"
+        "2. desk_storage_frame.step (Standard 3D STEP solid for universal CAD import)\n"
+        "3. desk_storage_frame_drawing.pdf (Dimensioned ISO engineering drawing)\n\n"
+        "How to use FeatureScript in Onshape:\n"
+        "1. In your Onshape document, click the '+' icon at the bottom-left and select 'Create Feature Studio'.\n"
+        "2. Paste the contents of 'desk_storage_frame.fs' into the Feature Studio and click 'Commit'.\n"
+        "3. Switch back to your Part Studio. A new 'Desk Storage Frame' button will appear in the toolbar.\n"
+        "4. Click it to insert the feature directly into your Feature Tree with full parametric controls (Length, Depth, Height, Wall Thickness)!\n\n"
         "Best regards,\n"
         "Tom\n"
     )
 
     send_cad_email(
-        to_aliases=[recipient],
+        to_aliases=[args.recipient],
         subject=subject,
         body=body,
         attachment_paths=attachments,
-        log_summary="Sent 3D STEP model and 2D drawing to Roland for Onshape import",
+        log_summary=f"Sent Onshape FeatureScript and STEP model to {args.recipient}",
     )
 
 
