@@ -181,35 +181,32 @@ def generate_technical_drawing(key, data):
     ax_frame.plot([0.05, 0.95], [0.91, 0.91], color="#222222", lw=0.8)
 
     # -------------------------------------------------------------
-    # 1. DRAUFSICHT (TOP VIEW) - Main engineering orthographic view
+    # 1. DRAUFSICHT (TOP VIEW) - Print-friendly white line-art
     # -------------------------------------------------------------
     # Position: Left-center
     ax_top = fig.add_axes([0.07, 0.16, 0.44, 0.72])
     W = data["width"]
     D = DEPTH
 
-    # Outer wooden rim (dark frame)
-    ax_top.add_patch(Rectangle((0, 0), W, D, facecolor="#4A4744", edgecolor="#1A1816", lw=1.6, zorder=1))
-    # Interior cavity floor
-    ax_top.add_patch(Rectangle((WALL, WALL), W - 2*WALL, D - 2*WALL, facecolor="#2F2D2A", edgecolor="none", zorder=2))
+    # Outer wooden rim (clean white background with sharp dark outline)
+    ax_top.add_patch(Rectangle((0, 0), W, D, facecolor="white", edgecolor="#111111", lw=1.8, zorder=1))
 
-    # Compartments cutout & labels
+    # Compartments cutout & labels (all white surfaces for ink-saving printing)
     for comp in data["compartments"]:
-        # Cavity floor with soft highlight
         ax_top.add_patch(Rectangle((comp["x"], comp["y"]), comp["w"], comp["h"],
-                                   facecolor="#3D3A37", edgecolor="#111111", lw=0.9, zorder=3))
-        # Compartment ID & size label
+                                   facecolor="white", edgecolor="#111111", lw=1.2, zorder=3))
+        # Compartment ID & size label in high contrast black/dark blue
         cx = comp["x"] + comp["w"]/2
         cy = comp["y"] + comp["h"]/2
-        ax_top.text(cx, cy + 1.2, comp["id"], color="#FFCC00", fontsize=9, fontweight="bold", ha="center", va="center", zorder=5)
-        ax_top.text(cx, cy - 0.2, f"{comp['w']:.1f} × {comp['h']:.1f} cm", color="#FFFFFF", fontsize=7.5, ha="center", va="center", zorder=5)
-        ax_top.text(cx, cy - 1.5, f"h={INNER_HEIGHT:.1f} cm", color="#CCCCCC", fontsize=6.5, ha="center", va="center", zorder=5)
+        ax_top.text(cx, cy + 1.3, comp["id"], color="#B8860B", fontsize=10, fontweight="bold", ha="center", va="center", zorder=5)
+        ax_top.text(cx, cy - 0.2, f"{comp['w']:.1f} × {comp['h']:.1f} cm", color="#111111", fontsize=8.0, fontweight="bold", ha="center", va="center", zorder=5)
+        ax_top.text(cx, cy - 1.5, f"h={INNER_HEIGHT:.1f} cm", color="#555555", fontsize=7.0, ha="center", va="center", zorder=5)
 
     # Wall thickness markers (0.8 cm)
-    ax_top.text(WALL/2, D/2, "0.8", color="#00FFCC", fontsize=6, ha="center", va="center", rotation=90, zorder=6)
-    ax_top.text(W - WALL/2, D/2, "0.8", color="#00FFCC", fontsize=6, ha="center", va="center", rotation=90, zorder=6)
-    ax_top.text(W/2, WALL/2, "0.8", color="#00FFCC", fontsize=6, ha="center", va="center", zorder=6)
-    ax_top.text(W/2, D - WALL/2, "0.8", color="#00FFCC", fontsize=6, ha="center", va="center", zorder=6)
+    ax_top.text(WALL/2, D/2, "0.8", color="#555555", fontsize=6.5, ha="center", va="center", rotation=90, zorder=6)
+    ax_top.text(W - WALL/2, D/2, "0.8", color="#555555", fontsize=6.5, ha="center", va="center", rotation=90, zorder=6)
+    ax_top.text(W/2, WALL/2, "0.8", color="#555555", fontsize=6.5, ha="center", va="center", zorder=6)
+    ax_top.text(W/2, D - WALL/2, "0.8", color="#555555", fontsize=6.5, ha="center", va="center", zorder=6)
 
     # Dimension lines on Top View:
     # 1. Outer Dimensions (Outermost rows)
@@ -248,28 +245,28 @@ def generate_technical_drawing(key, data):
     ax_sec.text(0, HEIGHT + 3.0, "SCHNITT A-A / QUERSCHNITT (M 1:2.5)", fontsize=9.5, fontweight="bold", color="#111111")
     ax_sec.text(0, HEIGHT + 1.8, "Zeigt Wandstärke, Bodenplatte und nutzbare Innenhöhe", fontsize=7.5, color="#555555")
 
-    # Draw solid base plate (5 mm = 0.5 cm)
-    ax_sec.add_patch(Rectangle((0, 0), W, BOTTOM, facecolor="#6E655F", edgecolor="#1A1816", hatch="///", lw=1.0))
+    # Draw solid base plate (5 mm = 0.5 cm) - hatched white
+    ax_sec.add_patch(Rectangle((0, 0), W, BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
     # Left outer wall
-    ax_sec.add_patch(Rectangle((0, BOTTOM), WALL, HEIGHT - BOTTOM, facecolor="#554E48", edgecolor="#1A1816", hatch="///", lw=1.0))
+    ax_sec.add_patch(Rectangle((0, BOTTOM), WALL, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
     # Right outer wall
-    ax_sec.add_patch(Rectangle((W - WALL, BOTTOM), WALL, HEIGHT - BOTTOM, facecolor="#554E48", edgecolor="#1A1816", hatch="///", lw=1.0))
+    ax_sec.add_patch(Rectangle((W - WALL, BOTTOM), WALL, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
 
     # Internal divider walls
     if key == "BE3056":
-        ax_sec.add_patch(Rectangle((10.1, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="#554E48", edgecolor="#1A1816", hatch="///", lw=1.0))
+        ax_sec.add_patch(Rectangle((10.1, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
     elif key == "BE4056":
-        ax_sec.add_patch(Rectangle((10.1, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="#554E48", edgecolor="#1A1816", hatch="///", lw=1.0))
-        ax_sec.add_patch(Rectangle((20.2, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="#554E48", edgecolor="#1A1816", hatch="///", lw=1.0))
+        ax_sec.add_patch(Rectangle((10.1, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
+        ax_sec.add_patch(Rectangle((20.2, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
     elif key == "BE5056":
-        ax_sec.add_patch(Rectangle((10.05, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="#554E48", edgecolor="#1A1816", hatch="///", lw=1.0))
-        ax_sec.add_patch(Rectangle((20.1, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="#554E48", edgecolor="#1A1816", hatch="///", lw=1.0))
+        ax_sec.add_patch(Rectangle((10.05, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
+        ax_sec.add_patch(Rectangle((20.1, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
     elif key == "BE6056":
-        ax_sec.add_patch(Rectangle((10.1, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="#554E48", edgecolor="#1A1816", hatch="///", lw=1.0))
-        ax_sec.add_patch(Rectangle((20.2, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="#554E48", edgecolor="#1A1816", hatch="///", lw=1.0))
+        ax_sec.add_patch(Rectangle((10.1, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
+        ax_sec.add_patch(Rectangle((20.2, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
 
     # Cavity fill
-    ax_sec.add_patch(Rectangle((WALL, BOTTOM), W - 2*WALL, HEIGHT - BOTTOM, facecolor="#EFEFEF", edgecolor="none", zorder=0))
+    ax_sec.add_patch(Rectangle((WALL, BOTTOM), W - 2*WALL, HEIGHT - BOTTOM, facecolor="white", edgecolor="none", zorder=0))
 
     # Dimensions on Section
     draw_dim_v(ax_sec, 0, HEIGHT, 0, f"Gesamthöhe: {HEIGHT:.1f} cm", offset=-2.2, text_left=True, color="#8B0000", fontsize=7.5)
@@ -316,19 +313,16 @@ def generate_technical_drawing(key, data):
 
     # Style table header & alternating row colors
     for k, cell in table.get_celld().items():
-        cell.set_edgecolor("#CCCCCC")
+        cell.set_edgecolor("#AAAAAA")
         cell.set_linewidth(0.6)
         if k[0] == 0:
-            cell.set_text_props(weight='bold', color='white')
-            cell.set_facecolor("#2B2B2B")
+            cell.set_text_props(weight='bold', color='#111111')
+            cell.set_facecolor("#F0F0F0")
         else:
-            if k[0] % 2 == 1:
-                cell.set_facecolor("#F9F9F9")
-            else:
-                cell.set_facecolor("#FFFFFF")
+            cell.set_facecolor("#FFFFFF")
             # Highlight ID
             if k[1] == 0:
-                cell.set_text_props(weight='bold', color='#B8860B')
+                cell.set_text_props(weight='bold', color='#8B0000')
 
     ax_tbl.text(0.5, 1.08, "DETAILLIERTE INNENMASSE & FACHEINTEILUNG", fontsize=9.5, fontweight="bold", ha="center", transform=ax_tbl.transAxes)
 
