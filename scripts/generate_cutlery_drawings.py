@@ -156,7 +156,7 @@ def draw_dim_v(ax, y1, y2, x, text, offset=1.5, text_left=True, color="#003366",
 
 def generate_technical_drawing(key, data):
     """Renders a single professional DIN ISO technical drawing for the specified model."""
-    fig = plt.figure(figsize=(16.54, 11.69), dpi=300) # A3 landscape: 420 x 297 mm
+    fig = plt.figure(figsize=(11.69, 8.27), dpi=300) # DIN A4 landscape: 297 x 210 mm
     fig.patch.set_facecolor('white')
 
     # Main outer border and drawing frame (DIN ISO)
@@ -375,7 +375,7 @@ def generate_technical_drawing(key, data):
     ax_tb.text(0.53, 0.06, "ISO 3rd Angle", fontsize=7.5, color="#111111", va="top")
 
     ax_tb.text(0.78, 0.16, "BLATT", fontsize=6.0, color="#666666", va="top")
-    ax_tb.text(0.78, 0.06, f"1 von 1 (DIN A3)", fontsize=7.5, color="#111111", va="top")
+    ax_tb.text(0.78, 0.06, f"1 von 1 (DIN A4)", fontsize=7.5, color="#111111", va="top")
 
     # Save to all target locations
     for out_dir in OUT_DIRS:
