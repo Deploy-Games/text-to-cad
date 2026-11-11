@@ -35,10 +35,10 @@ MODELS = {
         "cabinet": "30 cm",
         "width": 21.0,
         "compartments": [
-            {"id": "F1", "name": "Längsfach hinten links", "x": 0.8, "y": 21.2, "w": 9.3, "h": 26.0, "use": "Menügabeln / Besteck"},
-            {"id": "F2", "name": "Längsfach hinten rechts", "x": 10.9, "y": 21.2, "w": 9.3, "h": 26.0, "use": "Menümesser / Löffel"},
-            {"id": "F3", "name": "Querfach mitte", "x": 0.8, "y": 11.0, "w": 19.4, "h": 9.4, "use": "Dessertbesteck / Kuchengabeln"},
-            {"id": "F4", "name": "Querfach vorne", "x": 0.8, "y": 0.8, "w": 19.4, "h": 9.4, "use": "Kaffeelöffel / Teelöffel"},
+            {"id": "F1", "name": "Längsfach hinten links", "x": 0.8, "y": 21.2, "w": 9.3, "h": 26.0, "use": "Menügabeln"},
+            {"id": "F2", "name": "Längsfach hinten rechts", "x": 10.9, "y": 21.2, "w": 9.3, "h": 26.0, "use": "Menümesser"},
+            {"id": "F3", "name": "Querfach vorne mitte", "x": 0.8, "y": 11.0, "w": 19.4, "h": 9.4, "use": "Dessertbesteck / Kuchengabeln"},
+            {"id": "F4", "name": "Querfach ganz vorne", "x": 0.8, "y": 0.8, "w": 19.4, "h": 9.4, "use": "Kaffeelöffel / Teelöffel"},
         ],
         "dim_x": [
             (0.8, 10.1, "9.3"),
@@ -48,7 +48,8 @@ MODELS = {
             (0.8, 10.2, "9.4"),
             (11.0, 20.4, "9.4"),
             (21.2, 47.2, "26.0"),
-        ]
+        ],
+        "sec_walls": [10.1]
     },
     "BE4056": {
         "title": "BESTECKEINSATZ BE4056 - KORPUS 40 CM",
@@ -56,12 +57,11 @@ MODELS = {
         "cabinet": "40 cm",
         "width": 31.0,
         "compartments": [
-            {"id": "F1", "name": "Längsfach vorne links", "x": 0.8, "y": 0.8, "w": 9.3, "h": 26.0, "use": "Menümesser"},
-            {"id": "F2", "name": "Längsfach vorne mitte-links", "x": 10.9, "y": 0.8, "w": 9.3, "h": 26.0, "use": "Menügabeln"},
-            {"id": "F3", "name": "Querfach hinten links", "x": 0.8, "y": 27.6, "w": 19.4, "h": 19.6, "use": "Suppenlöffel / Servierbesteck"},
-            {"id": "F4", "name": "Querfach vorne rechts 1", "x": 21.0, "y": 0.8, "w": 9.2, "h": 12.6, "use": "Kaffeelöffel"},
-            {"id": "F5", "name": "Querfach vorne rechts 2", "x": 21.0, "y": 14.2, "w": 9.2, "h": 12.6, "use": "Kuchengabeln"},
-            {"id": "F6", "name": "Längsfach hinten rechts", "x": 21.0, "y": 27.6, "w": 9.2, "h": 19.6, "use": "Küchenwerkzeuge / Schäler"},
+            {"id": "F1", "name": "Längsfach hinten links", "x": 0.8, "y": 21.2, "w": 9.3, "h": 26.0, "use": "Menümesser"},
+            {"id": "F2", "name": "Längsfach hinten mitte", "x": 10.9, "y": 21.2, "w": 9.3, "h": 26.0, "use": "Menügabeln"},
+            {"id": "F3", "name": "Querfach vorne mitte-links", "x": 0.8, "y": 11.0, "w": 19.4, "h": 9.4, "use": "Suppen-/Dessertlöffel"},
+            {"id": "F4", "name": "Querfach ganz vorne links", "x": 0.8, "y": 0.8, "w": 19.4, "h": 9.4, "use": "Kaffeelöffel / Kuchengabeln"},
+            {"id": "F5", "name": "Längsfach rechts durchgehend", "x": 21.0, "y": 0.8, "w": 9.2, "h": 46.4, "use": "Kochbesteck / Kochlöffel / Schneidemesser"},
         ],
         "dim_x": [
             (0.8, 10.1, "9.3"),
@@ -69,10 +69,11 @@ MODELS = {
             (21.0, 30.2, "9.2"),
         ],
         "dim_y": [
-            (0.8, 13.4, "12.6"),
-            (14.2, 26.8, "12.6"),
-            (27.6, 47.2, "19.6"),
-        ]
+            (0.8, 10.2, "9.4"),
+            (11.0, 20.4, "9.4"),
+            (21.2, 47.2, "26.0"),
+        ],
+        "sec_walls": [10.1, 20.2]
     },
     "BE5056": {
         "title": "BESTECKEINSATZ BE5056 - KORPUS 50 CM",
@@ -80,23 +81,26 @@ MODELS = {
         "cabinet": "50 cm",
         "width": 41.0,
         "compartments": [
-            {"id": "F1", "name": "Längsfach vorne links", "x": 0.8, "y": 0.8, "w": 9.25, "h": 26.0, "use": "Menümesser"},
-            {"id": "F2", "name": "Längsfach vorne mitte-links", "x": 10.85, "y": 0.8, "w": 9.25, "h": 26.0, "use": "Menügabeln"},
-            {"id": "F3", "name": "Querfach hinten links", "x": 0.8, "y": 27.6, "w": 19.3, "h": 19.6, "use": "Suppenlöffel / Vorlegebesteck"},
-            {"id": "F4", "name": "Querfach vorne rechts 1", "x": 20.9, "y": 0.8, "w": 19.3, "h": 12.6, "use": "Kaffeelöffel"},
-            {"id": "F5", "name": "Querfach vorne rechts 2", "x": 20.9, "y": 14.2, "w": 19.3, "h": 12.6, "use": "Kuchengabeln"},
-            {"id": "F6", "name": "Universalfach hinten rechts", "x": 20.9, "y": 27.6, "w": 19.3, "h": 19.6, "use": "Kochbesteck / Pfannenwender"},
+            {"id": "F1", "name": "Längsfach hinten links 1", "x": 0.8, "y": 21.2, "w": 9.25, "h": 26.0, "use": "Menümesser"},
+            {"id": "F2", "name": "Längsfach hinten links 2", "x": 10.85, "y": 21.2, "w": 9.25, "h": 26.0, "use": "Menügabeln"},
+            {"id": "F3", "name": "Querfach vorne mitte-links", "x": 0.8, "y": 11.0, "w": 19.3, "h": 9.4, "use": "Suppen-/Dessertlöffel"},
+            {"id": "F4", "name": "Querfach ganz vorne links", "x": 0.8, "y": 0.8, "w": 19.3, "h": 9.4, "use": "Kaffeelöffel / Teelöffel"},
+            {"id": "F5", "name": "Längsfach hinten mitte-rechts", "x": 20.9, "y": 21.2, "w": 9.25, "h": 26.0, "use": "Esslöffel / Servierbesteck"},
+            {"id": "F6", "name": "Längsfach vorne mitte-rechts", "x": 20.9, "y": 0.8, "w": 9.25, "h": 19.6, "use": "Küchenhelfer / Sparschäler"},
+            {"id": "F7", "name": "Längsfach rechts durchgehend", "x": 30.95, "y": 0.8, "w": 9.25, "h": 46.4, "use": "Kochbesteck / Schneidemesser"},
         ],
         "dim_x": [
             (0.8, 10.05, "9.25"),
             (10.85, 20.1, "9.25"),
-            (20.9, 40.2, "19.3"),
+            (20.9, 30.15, "9.25"),
+            (30.95, 40.2, "9.25"),
         ],
         "dim_y": [
-            (0.8, 13.4, "12.6"),
-            (14.2, 26.8, "12.6"),
-            (27.6, 47.2, "19.6"),
-        ]
+            (0.8, 10.2, "9.4"),
+            (11.0, 20.4, "9.4"),
+            (21.2, 47.2, "26.0"),
+        ],
+        "sec_walls": [10.05, 20.1, 30.15]
     },
     "BE6056": {
         "title": "BESTECKEINSATZ BE6056 - KORPUS 60 CM",
@@ -104,23 +108,26 @@ MODELS = {
         "cabinet": "60 cm",
         "width": 51.0,
         "compartments": [
-            {"id": "F1", "name": "Längsfach vorne links", "x": 0.8, "y": 0.8, "w": 9.3, "h": 26.0, "use": "Menümesser"},
-            {"id": "F2", "name": "Längsfach vorne mitte-links", "x": 10.9, "y": 0.8, "w": 9.3, "h": 26.0, "use": "Menügabeln"},
-            {"id": "F3", "name": "Querfach hinten links", "x": 0.8, "y": 27.6, "w": 19.4, "h": 19.6, "use": "Suppenlöffel / Vorlegebesteck"},
-            {"id": "F4", "name": "Querfach vorne rechts 1", "x": 21.0, "y": 0.8, "w": 29.2, "h": 12.6, "use": "Teelöffel / Kuchengabeln"},
-            {"id": "F5", "name": "Querfach vorne rechts 2", "x": 21.0, "y": 14.2, "w": 29.2, "h": 12.6, "use": "Küchenzubehör / Schäler"},
-            {"id": "F6", "name": "Großfach hinten rechts", "x": 21.0, "y": 27.6, "w": 29.2, "h": 19.6, "use": "Messerblock / Folienabroller / Kochbesteck"},
+            {"id": "F1", "name": "Längsfach hinten links 1", "x": 0.8, "y": 21.2, "w": 9.3, "h": 26.0, "use": "Menümesser"},
+            {"id": "F2", "name": "Längsfach hinten links 2", "x": 10.9, "y": 21.2, "w": 9.3, "h": 26.0, "use": "Menügabeln"},
+            {"id": "F3", "name": "Querfach vorne mitte-links", "x": 0.8, "y": 11.0, "w": 19.4, "h": 9.4, "use": "Dessertbesteck / Kuchengabeln"},
+            {"id": "F4", "name": "Querfach ganz vorne links", "x": 0.8, "y": 0.8, "w": 19.4, "h": 9.4, "use": "Kaffeelöffel / Teelöffel"},
+            {"id": "F5", "name": "Längsfach hinten mitte-rechts", "x": 21.0, "y": 21.2, "w": 14.2, "h": 26.0, "use": "Esslöffel / Servierlöffel"},
+            {"id": "F6", "name": "Längsfach vorne mitte-rechts", "x": 21.0, "y": 0.8, "w": 14.2, "h": 19.6, "use": "Küchenzubehör / Schäler"},
+            {"id": "F7", "name": "Großfach rechts durchgehend", "x": 36.0, "y": 0.8, "w": 14.2, "h": 46.4, "use": "Messerblock BME15 / Folienabroller BFA15"},
         ],
         "dim_x": [
             (0.8, 10.1, "9.3"),
             (10.9, 20.2, "9.3"),
-            (21.0, 50.2, "29.2"),
+            (21.0, 35.2, "14.2"),
+            (36.0, 50.2, "14.2"),
         ],
         "dim_y": [
-            (0.8, 13.4, "12.6"),
-            (14.2, 26.8, "12.6"),
-            (27.6, 47.2, "19.6"),
-        ]
+            (0.8, 10.2, "9.4"),
+            (11.0, 20.4, "9.4"),
+            (21.2, 47.2, "26.0"),
+        ],
+        "sec_walls": [10.1, 20.2, 35.2]
     }
 }
 
@@ -195,12 +202,13 @@ def generate_technical_drawing(key, data):
     for comp in data["compartments"]:
         ax_top.add_patch(Rectangle((comp["x"], comp["y"]), comp["w"], comp["h"],
                                    facecolor="white", edgecolor="#111111", lw=1.2, zorder=3))
-        # Compartment ID & size label in high contrast black/dark blue
+        # Compartment ID & size label in high contrast black/dark gold
         cx = comp["x"] + comp["w"]/2
         cy = comp["y"] + comp["h"]/2
-        ax_top.text(cx, cy + 1.3, comp["id"], color="#B8860B", fontsize=10, fontweight="bold", ha="center", va="center", zorder=5)
-        ax_top.text(cx, cy - 0.2, f"{comp['w']:.1f} × {comp['h']:.1f} cm", color="#111111", fontsize=8.0, fontweight="bold", ha="center", va="center", zorder=5)
-        ax_top.text(cx, cy - 1.5, f"h={INNER_HEIGHT:.1f} cm", color="#555555", fontsize=7.0, ha="center", va="center", zorder=5)
+        ax_top.text(cx, cy + 1.3, comp["id"], color="#B8860B", fontsize=9.0, fontweight="bold", ha="center", va="center", zorder=5)
+        w_str = f"{comp['w']:.2f}".rstrip('0').rstrip('.')
+        ax_top.text(cx, cy - 0.2, f"{w_str} × {comp['h']:.1f} cm", color="#111111", fontsize=7.0 if comp['w'] < 10 else 7.5, fontweight="bold", ha="center", va="center", zorder=5)
+        ax_top.text(cx, cy - 1.5, f"h={INNER_HEIGHT:.1f} cm", color="#555555", fontsize=6.2, ha="center", va="center", zorder=5)
 
     # Wall thickness markers (0.8 cm)
     ax_top.text(WALL/2, D/2, "0.8", color="#555555", fontsize=6.5, ha="center", va="center", rotation=90, zorder=6)
@@ -253,17 +261,8 @@ def generate_technical_drawing(key, data):
     ax_sec.add_patch(Rectangle((W - WALL, BOTTOM), WALL, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
 
     # Internal divider walls
-    if key == "BE3056":
-        ax_sec.add_patch(Rectangle((10.1, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
-    elif key == "BE4056":
-        ax_sec.add_patch(Rectangle((10.1, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
-        ax_sec.add_patch(Rectangle((20.2, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
-    elif key == "BE5056":
-        ax_sec.add_patch(Rectangle((10.05, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
-        ax_sec.add_patch(Rectangle((20.1, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
-    elif key == "BE6056":
-        ax_sec.add_patch(Rectangle((10.1, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
-        ax_sec.add_patch(Rectangle((20.2, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
+    for wx in data.get("sec_walls", []):
+        ax_sec.add_patch(Rectangle((wx, BOTTOM), 0.8, HEIGHT - BOTTOM, facecolor="white", edgecolor="#111111", hatch="///", lw=1.2))
 
     # Cavity fill
     ax_sec.add_patch(Rectangle((WALL, BOTTOM), W - 2*WALL, HEIGHT - BOTTOM, facecolor="white", edgecolor="none", zorder=0))
@@ -283,7 +282,7 @@ def generate_technical_drawing(key, data):
     # 3. FACH-TABELLE (COMPARTMENT SPECIFICATION TABLE)
     # -------------------------------------------------------------
     # Position: Middle-right
-    ax_tbl = fig.add_axes([0.55, 0.35, 0.40, 0.25])
+    ax_tbl = fig.add_axes([0.54, 0.29, 0.42, 0.35])
     ax_tbl.axis('off')
 
     col_labels = ["Fach", "Bezeichnung", "Breite", "Tiefe", "Höhe", "Fläche", "Empfohlene Nutzung"]
@@ -293,7 +292,7 @@ def generate_technical_drawing(key, data):
         table_data.append([
             c["id"],
             c["name"],
-            f"{c['w']:.1f} cm",
+            f"{c['w']:.2f}".rstrip('0').rstrip('.') + " cm",
             f"{c['h']:.1f} cm",
             f"{INNER_HEIGHT:.1f} cm",
             f"{area:.1f} cm²",
@@ -308,8 +307,8 @@ def generate_technical_drawing(key, data):
         colColours=["#222222"] * len(col_labels)
     )
     table.auto_set_font_size(False)
-    table.set_fontsize(7.5)
-    table.scale(1.0, 1.35)
+    table.set_fontsize(6.8 if len(table_data) > 5 else 7.5)
+    table.scale(1.0, 1.15 if len(table_data) > 5 else 1.35)
 
     # Style table header & alternating row colors
     for k, cell in table.get_celld().items():
