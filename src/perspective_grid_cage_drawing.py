@@ -1,6 +1,5 @@
 """
-Professional ISO Engineering Drawing (PDF) for the perspective grid and cage sculpture.
-Derived from the 3D solid model in src/perspective_grid_cage.py.
+ISO engineering drawing for the tiled room corner (src/perspective_grid_cage.py).
 
 Run: cad run src/perspective_grid_cage_drawing.py
 """
@@ -9,26 +8,8 @@ from pathlib import Path
 
 from cad.eng_drawing import Sheet, eng_drawing
 from perspective_grid_cage import (
-    BASE_DEPTH,
-    BASE_HEIGHT,
-    BASE_WIDTH,
-    CAGE_DEPTH,
-    CAGE_HEIGHT,
-    CAGE_POS_X,
-    CAGE_POS_Y,
-    CAGE_WIDTH,
-    REAR_WALL_HEIGHT,
-    REAR_WALL_POS_X,
-    REAR_WALL_POS_Y,
-    TERRACE_1_HEIGHT,
-    TERRACE_2_HEIGHT,
-    TERRACE_3_HEIGHT,
-    TOWER_DEPTH,
-    TOWER_HEIGHT,
-    TOWER_POS_X,
-    TOWER_POS_Y,
-    TOWER_WIDTH,
-    perspective_grid_cage,
+    CAGE_H, CAGE_P, CAGE_W, CAGE_X, CAGE_Z, D, FLOOR_T, L, PIER_D, PIER_W, PIER_Y,
+    STAIR_N, STAIR_RISE, STAIR_RUN, STAIR_W, WALL_H, WALL_T, perspective_grid_cage,
 )
 
 OUT_PDF = Path(__file__).resolve().parent.parent / "drawings" / "perspective_grid_cage_drawing.pdf"
@@ -36,55 +17,50 @@ OUT_PDF = Path(__file__).resolve().parent.parent / "drawings" / "perspective_gri
 
 @eng_drawing(out=str(OUT_PDF))
 def perspective_grid_cage_drawing():
-    """Generates standard ISO dimensioned shop drawing with 3rd-angle orthographic projections."""
     part = perspective_grid_cage().shape
 
     sheet = Sheet(
         "A3",
         scale=0.5,
-        title="PERSPECTIVE GRID & CAGE SCULPTURE",
+        title="TILED ROOM CORNER WITH STAIR",
         part_number="CAD-SKETCH-21612",
-        material="PLA / RESIN / SOLID",
-        revision="A",
+        material="PLA (3D PRINT)",
+        revision="B",
         general_tolerance="ISO 2768-m",
         notes=[
-            "1. TOLERANCES PER ISO 2768-m UNLESS OTHERWISE SPECIFIED.",
-            "2. ALL DIMENSIONS IN MILLIMETERS (MM).",
-            "3. 3D PRINTABLE MONOLITHIC SOLID MODEL.",
-            "4. BREAK ALL SHARP EDGES 0.5 MM.",
+            f"TILE JOINTS {TILE_TXT} ON FLOOR AND INNER WALL FACES.",
+            f"STAIR {STAIR_N} STEPS, RISE {STAIR_RISE:g} x RUN {STAIR_RUN:g}. WINDOW BOX: 4 BARS, OPEN FRONT.",
         ],
     )
 
-    # 3rd-angle orthographic projection: Top, Front, Right, Isometric in free corner
-    top, front, right, iso = sheet.three_views(part, iso=True)
-
-    # Overall bounding dimensions
+    top, front, right, iso = sheet.three_views(part, iso=True, hidden=False)
     top.overall()
 
-    # Top View: Feature Placement & Widths
-    top.dim((0.0, 0.0, 0.0), (BASE_WIDTH, 0.0, 0.0))
-    top.dim((0.0, 0.0, 0.0), (0.0, BASE_DEPTH, 0.0))
-    top.dim((CAGE_POS_X, CAGE_POS_Y, 0.0), (CAGE_POS_X + CAGE_WIDTH, CAGE_POS_Y, 0.0))
-    top.dim((CAGE_POS_X, CAGE_POS_Y, 0.0), (CAGE_POS_X, CAGE_POS_Y + CAGE_DEPTH, 0.0))
-    top.dim((TOWER_POS_X, TOWER_POS_Y, 0.0), (TOWER_POS_X + TOWER_WIDTH, TOWER_POS_Y, 0.0))
+    z0 = FLOOR_T
+    yb = D - WALL_T
+    xr = L - WALL_T
 
-    # Front View: Heights of Base, Terraces, Tower and Cage
-    front.dim((0.0, 0.0, 0.0), (0.0, 0.0, BASE_HEIGHT))
-    front.dim((10.0, 15.0, 0.0), (10.0, 15.0, TERRACE_1_HEIGHT))
-    front.dim((10.0, 35.0, 0.0), (10.0, 35.0, TERRACE_2_HEIGHT))
-    front.dim((10.0, 58.0, 0.0), (10.0, 58.0, TERRACE_3_HEIGHT))
-    front.dim((TOWER_POS_X, TOWER_POS_Y, 0.0), (TOWER_POS_X, TOWER_POS_Y, TOWER_HEIGHT))
-    front.dim(
-        (CAGE_POS_X, CAGE_POS_Y, 0.0),
-        (CAGE_POS_X, CAGE_POS_Y, TERRACE_3_HEIGHT + CAGE_HEIGHT),
-    )
+    # Top: walls, stair, pier, window box
+    top.dim((0, D, 0), (STAIR_W, D, 0))
+    top.dim((L - WALL_T, 0, 0), (L, 0, 0), offset=-24)
+    top.dim((0, yb - STAIR_RUN * STAIR_N, 0), (0, yb, 0))
+    top.dim((L, PIER_Y, 0), (L, PIER_Y + PIER_D, 0))
+    top.dim((xr - PIER_W, 0, 0), (xr, 0, 0), offset=-12)
+    top.dim((L, yb, 0), (L, D, 0))
+    top.dim((CAGE_X, 0, 0), (CAGE_X + CAGE_W, 0, 0), offset=-12)
 
-    # Right View: Depth features
-    right.dim((0.0, TOWER_POS_Y, 0.0), (0.0, TOWER_POS_Y + TOWER_DEPTH, 0.0))
-    right.dim((0.0, REAR_WALL_POS_Y, 0.0), (0.0, REAR_WALL_POS_Y, REAR_WALL_HEIGHT))
+    # Front: floor, stair head, window box
+    front.dim((L, 0, 0), (L, 0, z0))
+    front.dim((STAIR_W, 0, 0), (STAIR_W, 0, z0 + STAIR_RISE * STAIR_N))
+
+    front.dim((0, 0, 0), (0, 0, z0 + WALL_H))
+    front.dim((CAGE_X, 0, z0 + CAGE_Z), (CAGE_X, 0, z0 + CAGE_Z + CAGE_H), offset=-8)
+    top.dim((0, yb - CAGE_P, 0), (0, yb, 0), offset=-24)
 
     return sheet
 
+
+TILE_TXT = "10 x 10 GRID, 0.8 WIDE x 0.6 DEEP"
 
 if __name__ == "__main__":
     perspective_grid_cage_drawing()
